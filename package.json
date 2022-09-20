@@ -1,7 +1,7 @@
 {
-  "name": "boilerplate-card",
+  "name": "southeastern-rail-card",
   "version": "1.4.1",
-  "description": "Lovelace boilerplate-card",
+  "description": "Lovelace southeastern-rail-card",
   "keywords": [
     "home-assistant",
     "homeassistant",
@@ -10,10 +10,9 @@
     "lovelace",
     "custom-cards"
   ],
-  "module": "boilerplate-card.js",
-  "repository": "git@github.com:custom_cards/boilerplate-card.git",
-  "author": "Ian Richardson <iantrich@gmail.com>",
-  "license": "MIT",
+  "module": "southeastern-rail-card.js",
+  "repository": "git@github.com:custom_cards/ha-southeastern-rail-card.git",
+  "author": "Chris Churchill <chris@serva.co.uk>",
   "dependencies": {
     "@lit-labs/scoped-registry-mixin": "^1.0.0",
     "@material/mwc-formfield": "^0.25.3",
@@ -26,7 +25,8 @@
     "@material/mwc-textfield": "^0.25.3",
     "custom-card-helpers": "^1.7.2",
     "home-assistant-js-websocket": "^5.11.1",
-    "lit": "^2.0.0"
+    "lit": "^2.0.0",
+    "material-icons": "^1.11.11"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",

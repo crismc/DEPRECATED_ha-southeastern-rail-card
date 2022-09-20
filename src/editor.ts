@@ -3,18 +3,18 @@ import { LitElement, html, TemplateResult, css, CSSResultGroup } from 'lit';
 import { HomeAssistant, fireEvent, LovelaceCardEditor } from 'custom-card-helpers';
 
 import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';
-import { BoilerplateCardConfig } from './types';
+import { SoutheasternRailCardConfig } from './types';
 import { customElement, property, state } from 'lit/decorators';
 import { formfieldDefinition } from '../elements/formfield';
 import { selectDefinition } from '../elements/select';
 import { switchDefinition } from '../elements/switch';
 import { textfieldDefinition } from '../elements/textfield';
 
-@customElement('boilerplate-card-editor')
-export class BoilerplateCardEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
+@customElement('southeastern-rail-card-editor')
+export class SoutheasternRailCardEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
   @property({ attribute: false }) public hass?: HomeAssistant;
 
-  @state() private _config?: BoilerplateCardConfig;
+  @state() private _config?: SoutheasternRailCardConfig;
 
   @state() private _helpers?: any;
 
@@ -27,7 +27,7 @@ export class BoilerplateCardEditor extends ScopedRegistryHost(LitElement) implem
     ...formfieldDefinition,
   };
 
-  public setConfig(config: BoilerplateCardConfig): void {
+  public setConfig(config: SoutheasternRailCardConfig): void {
     this._config = config;
 
     this.loadCardHelpers();
@@ -55,6 +55,26 @@ export class BoilerplateCardEditor extends ScopedRegistryHost(LitElement) implem
 
   get _show_error(): boolean {
     return this._config?.show_error || false;
+  }
+
+  get _show_via_destination(): boolean {
+    return this._config?.show_via_destination || false;
+  }
+
+  get _show_callingpoints(): boolean {
+    return this._config?.show_callingpoints || false;
+  }
+
+  get _show_status(): boolean {
+    return this._config?.show_status || false;
+  }
+
+  get _show_arrival_time(): boolean {
+    return this._config?.show_arrival_time || false;
+  }
+
+  get _show_departure_time(): boolean {
+    return this._config?.show_departure_time || false;
   }
 
   protected render(): TemplateResult | void {
@@ -85,7 +105,7 @@ export class BoilerplateCardEditor extends ScopedRegistryHost(LitElement) implem
         .configValue=${'name'}
         @input=${this._valueChanged}
       ></mwc-textfield>
-      <mwc-formfield .label=${`Toggle warning ${this._show_warning ? 'off' : 'on'}`}>
+      <mwc-formfield .label=${`Toggle station messages ${this._show_warning ? 'off' : 'on'}`}>
         <mwc-switch
           .checked=${this._show_warning !== false}
           .configValue=${'show_warning'}
@@ -96,6 +116,41 @@ export class BoilerplateCardEditor extends ScopedRegistryHost(LitElement) implem
         <mwc-switch
           .checked=${this._show_error !== false}
           .configValue=${'show_error'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${`Toggle Via Destination ${this._show_via_destination ? 'off' : 'on'}`}>
+        <mwc-switch
+          .checked=${this._show_via_destination !== false}
+          .configValue=${'show_via_destination'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${`Toggle Train Status ${this._show_status ? 'off' : 'on'}`}>
+        <mwc-switch
+          .checked=${this._show_status !== false}
+          .configValue=${'show_status'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${`Toggle Train Arrival Time ${this._show_arrival_time ? 'off' : 'on'}`}>
+        <mwc-switch
+          .checked=${this._show_arrival_time !== false}
+          .configValue=${'show_arrival_time'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${`Toggle Train Departure Time ${this._show_departure_time ? 'off' : 'on'}`}>
+        <mwc-switch
+          .checked=${this._show_departure_time !== false}
+          .configValue=${'show_departure_time'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${`Toggle calling points ${this._show_callingpoints ? 'off' : 'on'}`}>
+        <mwc-switch
+          .checked=${this._show_callingpoints !== false}
+          .configValue=${'show_callingpoints'}
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>
@@ -144,6 +199,7 @@ export class BoilerplateCardEditor extends ScopedRegistryHost(LitElement) implem
     }
     mwc-formfield {
       padding-bottom: 8px;
+      display: block;
     }
     mwc-switch {
       --mdc-theme-secondary: var(--switch-checked-color);
