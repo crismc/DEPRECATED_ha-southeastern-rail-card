@@ -74,12 +74,18 @@ export class SoutheasternRailCard extends LitElement {
     }
   }
 
-  isCancelled(entity) {
+  isCancelled(entity):boolean|void {
+    if (!entity?.service) {
+      return;
+    }
     const status = entity.service.etd;
     return !(status !== "Cancelled" && entity.calling_points !== undefined);
   }
 
-  isDelayed(service): boolean {
+  isDelayed(service): boolean|void {
+    if (!service) {
+      return;
+    }
     // If the train is on time, etd would display "On Time"
     const re = /[0-9]/i;
     const status = service.etd || "";
@@ -114,6 +120,11 @@ export class SoutheasternRailCard extends LitElement {
     }
 
     const service = entity.service;
+
+    if (!service) {
+      return;
+    }
+
     let time = service.std;
     if (this.isDelayed(service)) {
       time = service.etd;
@@ -151,7 +162,7 @@ export class SoutheasternRailCard extends LitElement {
     let alertType = "success";
     if (this.isCancelled(entity)) {
       alertType = "error";
-    } else if (this.isDelayed(entity)) {
+    } else if (this.isDelayed(entity) || !entity?.service) {
       alertType = "warning";
     }
 
@@ -161,14 +172,14 @@ export class SoutheasternRailCard extends LitElement {
         ${this.isDelayed(entity.service) ?
           html`Delayed (<span class="delayed">${this.formatTime(entity.service.std)}</span>)`
           :
-          entity.service.etd
+          entity?.service ? entity.service.etd : "Service Suspended"
         }
       </ha-alert>
     </div>`;
   }
 
   protected _renderServiceTimes(entity): TemplateResult | void {
-    if (this.isCancelled(entity)) {
+    if (this.isCancelled(entity) || !entity.service) {
       return;
     }
 
@@ -197,7 +208,7 @@ export class SoutheasternRailCard extends LitElement {
   }
 
   protected _renderCallingPoints(entity): TemplateResult | void {
-    if (this.isCancelled(entity) || !this.config.show_callingpoints) {
+    if (this.isCancelled(entity) || !this.config.show_callingpoints || !entity?.calling_points) {
       return;
     }
 
@@ -233,7 +244,7 @@ export class SoutheasternRailCard extends LitElement {
     // }
 
     const entity = this.getEntity(this.config.entity);
-    // console.log(entity);
+    console.log(entity);
 
     return html`
       <ha-card
@@ -268,16 +279,16 @@ export class SoutheasternRailCard extends LitElement {
     return html` <hui-warning>${warning}</hui-warning> `;
   }
 
-  // private _showError(error: string): TemplateResult {
-  //   const errorCard = document.createElement('hui-error-card');
-  //   errorCard.setConfig({
-  //     type: 'error',
-  //     error,
-  //     origConfig: this.config,
-  //   });
+  private _showError(error: string): TemplateResult {
+    const errorCard = document.createElement('hui-error-card');
+    errorCard.setConfig({
+      type: 'error',
+      error,
+      origConfig: this.config,
+    });
 
-  //   return html` ${errorCard} `;
-  // }
+    return html` ${errorCard} `;
+  }
 
   static get styles(): CSSResultGroup {
     return css`
