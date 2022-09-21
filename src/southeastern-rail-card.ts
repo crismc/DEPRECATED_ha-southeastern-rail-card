@@ -238,14 +238,22 @@ export class SoutheasternRailCard extends LitElement {
     }
   }
 
-  protected render(): TemplateResult | void {
-    // if (this.config.show_error) {
-    //   return this._showError(localize('common.show_error'));
-    // }
+  protected _renderErrors(): TemplateResult | void {
+    if (!this.config.show_error) {
+      return;
+    }
 
     const entity = this.getEntity(this.config.entity);
-    console.log(entity);
+    const re = /[0-9]/i;
 
+    if (!entity.state.match(re)) {
+      return html`<div class="messages">${this._showError(entity.state)}</div>`
+    }
+  }
+
+  protected render(): TemplateResult | void {
+    const entity = this.getEntity(this.config.entity);
+    // console.log(this.hass);
     return html`
       <ha-card
         .header=${this.config.name ? this.config.name : entity ? entity.attributes.friendly_name : "Southeastern Rail"}
@@ -259,6 +267,7 @@ export class SoutheasternRailCard extends LitElement {
       >
         <div class="card-content">
           ${this.config.show_via_destination ? html`<div class="via-destination">${this.destinationVia(entity.attributes.service)}</div>` : null}
+          ${this._renderErrors()}
           ${this.stationMessage(entity.attributes)}
           ${this._renderServiceStatus(entity.attributes)}
           ${this._renderServiceTimes(entity.attributes)}
@@ -284,7 +293,7 @@ export class SoutheasternRailCard extends LitElement {
     errorCard.setConfig({
       type: 'error',
       error,
-      origConfig: this.config,
+      // origConfig: this.config,
     });
 
     return html` ${errorCard} `;
@@ -305,19 +314,8 @@ export class SoutheasternRailCard extends LitElement {
         font-weight: bold;
         text-transform: uppercase;
       }
-      .status.success {
-        color: #006E00;
-      }
-      .status.error {
-        color: #FF0000;
-      }
-      .status.warning {
-        color: #FFB300;
-      }
-
       .status .delayed {
         text-decoration:line-through;
-        color: #000000;
         font-weight: normal;
       }
 
@@ -327,22 +325,22 @@ export class SoutheasternRailCard extends LitElement {
         align-items: center;
         text-align: center;
         margin-top: 8px;
+        position: relative;
+        flex-wrap: wrap;
       }
 
       .train-times .train-times__col {
-        background:#F5F5F5;
         border-radius: 5px;
         padding: 8px;
-        width: 50%;
-        position: relative;
+        flex: 1;
       }
 
       .train-times .train-times__col .arrow {
         position: absolute;
-        left: -25px;
-        top:10%;
-        color: #CCCCCC;
-        --mdc-icon-size: 55px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        --mdc-icon-size: 15%;
       }
 
       .train-times .train-times__col h2 {
@@ -360,7 +358,6 @@ export class SoutheasternRailCard extends LitElement {
       }
 
       .calling-points_container {
-        background: #FCFCFC;
         border-radius: 5px;
         padding: 8px;
         padding-bottom: 0;
@@ -392,6 +389,33 @@ export class SoutheasternRailCard extends LitElement {
 
       .last_updated .date {
         font-style: italic;
+      }
+
+      @media screen and (max-width: 1024px) {
+        .train-times .train-times__col .arrow {
+          display: none;
+        }
+      }
+
+      /* Colours */
+      .status.success {
+        color: var(--label-badge-green);
+      }
+      .status.error {
+        color: var(--label-badge-red);
+      }
+      .status.warning {
+        color: var(--label-badge-yellow);
+      }
+      .status .delayed {
+        color: var(--secondary-text-color);
+      }
+      .train-times .train-times__col .arrow {
+        color: var(--secondary-text-color);
+      }
+      .train-times .train-times__col,
+      .calling-points_container {
+        background:var(--input-fill-color);
       }
     `;
   }

@@ -50,31 +50,31 @@ export class SoutheasternRailCardEditor extends ScopedRegistryHost(LitElement) i
   }
 
   get _show_warning(): boolean {
-    return this._config?.show_warning || false;
+    return this._config?.show_warning || true;
   }
 
   get _show_error(): boolean {
-    return this._config?.show_error || false;
+    return this._config?.show_error || true;
   }
 
   get _show_via_destination(): boolean {
-    return this._config?.show_via_destination || false;
+    return this._config?.show_via_destination || true;
   }
 
   get _show_callingpoints(): boolean {
-    return this._config?.show_callingpoints || false;
+    return this._config?.show_callingpoints || true;
   }
 
   get _show_status(): boolean {
-    return this._config?.show_status || false;
+    return this._config?.show_status || true;
   }
 
   get _show_arrival_time(): boolean {
-    return this._config?.show_arrival_time || false;
+    return this._config?.show_arrival_time || true;
   }
 
   get _show_departure_time(): boolean {
-    return this._config?.show_departure_time || false;
+    return this._config?.show_departure_time || true;
   }
 
   protected render(): TemplateResult | void {
@@ -83,7 +83,7 @@ export class SoutheasternRailCardEditor extends ScopedRegistryHost(LitElement) i
     }
 
     // You can restrict on domain type
-    const entities = Object.keys(this.hass.states);
+    const entities = Object.keys(this.hass.states).filter((entity) => entity.indexOf('sensor.southeastern_trains_') === 0);
 
     return html`
       <mwc-select
