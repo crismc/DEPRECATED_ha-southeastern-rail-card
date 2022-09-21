@@ -4,6 +4,8 @@ To be used with the Home Assistant custom component ha_southeasternrail (https:/
 
 [![License][license-shield]](LICENSE.md)
 
+![alt text](https://raw.githubusercontent.com/crismc/ha-southeastern-rail-card/master/screenshot.png)
+
 Based on the community driven boilerplate of best practices for Home Assistant Lovelace custom cards (Boilerplate Card by [@iantrich](https://www.github.com/iantrich) https://github.com/custom-cards/boilerplate-card)
 
 ## Options
