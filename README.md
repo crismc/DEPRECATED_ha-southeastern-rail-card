@@ -1,53 +1,31 @@
-# Boilerplate Card by [@iantrich](https://www.github.com/iantrich)
+# Southeastern Rail Card by [@crismc](https://github.com/crismc)
+A custom Home Assistant card to show next available trains to specific stops through the National Rail Darwin API.
+Based on the community driven boilerplate of best practices for Home Assistant Lovelace custom cards (Boilerplate Card by [@iantrich](https://www.github.com/iantrich)
 
-A community driven boilerplate of best practices for Home Assistant Lovelace custom cards
+To be used with the Home Assistant custom component ha_southeasternrail (https://github.com/crismc/ha_southeasternrail.git)
 
-[![GitHub Release][releases-shield]][releases]
 [![License][license-shield]](LICENSE.md)
-[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
-
-![Project Maintenance][maintenance-shield]
-[![GitHub Activity][commits-shield]][commits]
-
-[![Discord][discord-shield]][discord]
-[![Community Forum][forum-shield]][forum]
-
-## Support
-
-Hey dude! Help me out for a couple of :beers: or a :coffee:!
-
-[![coffee](https://www.buymeacoffee.com/assets/img/custom_images/black_img.png)](https://www.buymeacoffee.com/zJtVxUAgH)
 
 ## Options
 
-| Name              | Type    | Requirement  | Description                                 | Default             |
-| ----------------- | ------- | ------------ | ------------------------------------------- | ------------------- |
-| type              | string  | **Required** | `custom:boilerplate-card`                   |
-| name              | string  | **Optional** | Card name                                   | `Boilerplate`       |
-| show_error        | boolean | **Optional** | Show what an error looks like for the card  | `false`             |
-| show_warning      | boolean | **Optional** | Show what a warning looks like for the card | `false`             |
-| entity            | string  | **Optional** | Home Assistant entity ID.                   | `none`              |
-| tap_action        | object  | **Optional** | Action to take on tap                       | `action: more-info` |
-| hold_action       | object  | **Optional** | Action to take on hold                      | `none`              |
-| double_tap_action | object  | **Optional** | Action to take on double tap                | `none`              |
+| Name                 | Type    | Requirement  | Description                                            | Default             |
+| ---------------------| ------- | ------------ | -------------------------------------------------------| ------------------- |
+| type                 | string  | **Required** | `custom:southeastern-rail-card`                        |                     |
+| name                 | string  | **Optional** | Card name based on entity                              | `none`              |
+| show_error           | boolean | **Optional** | Show error message such as no service data             | `true`              |
+| show_warning         | boolean | **Optional** | Show station alert messages                            | `true`              |
+| show_via_destination | boolean | **Optional** | Show if train goes via an alternate route              | `true`              |
+| show_callingpoints   | boolean | **Optional** | Show train service calling stops                       | `true`              |
+| show_status          | boolean | **Optional** | Show service status (e.g. On Time, Delayed etc)        | `true`              |
+| show_arrival_time    | boolean | **Optional** | Show train service arrival time at destination         | `true`              |
+| show_departure_time  | boolean | **Optional** | Show train service departure time from primary station | `true`              |
+| entity               | string  | **Optional** | Home Assistant entity ID.                              | `none`              |
 
-## Action Options
-
-| Name            | Type   | Requirement  | Description                                                                                                                            | Default     |
-| --------------- | ------ | ------------ | -------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| action          | string | **Required** | Action to perform (more-info, toggle, call-service, navigate url, none)                                                                | `more-info` |
-| navigation_path | string | **Optional** | Path to navigate to (e.g. /lovelace/0/) when action defined as navigate                                                                | `none`      |
-| url             | string | **Optional** | URL to open on click when action is url. The URL will open in a new tab                                                                | `none`      |
-| service         | string | **Optional** | Service to call (e.g. media_player.media_play_pause) when action defined as call-service                                               | `none`      |
-| service_data    | object | **Optional** | Service data to include (e.g. entity_id: media_player.bedroom) when action defined as call-service                                     | `none`      |
-| haptic          | string | **Optional** | Haptic feedback _success, warning, failure, light, medium, heavy, selection_ | `none`      |
-| repeat          | number | **Optional** | How often to repeat the `hold_action` in milliseconds.                                                                                 | `none`       |
-
-## Starting a new card from boilerplate-card
+## Installing the card from source
 
 ### Step 1
 
-Click the "Use this template" button on the main page and clone the new repository to your machine
+Clone the repository to your machine
 
 ### Step 2
 
@@ -61,59 +39,19 @@ Do a test lint & build on the project. You can see available scripts in the pack
 
 ### Step 4
 
-Search the repository for all instances of "TODO" and handle the changes/suggestions
+Copy content of <project_dir>/dist to your Home Assistant instance <config>/www/ha_southeastern-rail-card
+If directories do not exist, create them.
 
 ### Step 5
+Go to Settings > Dashboards, click the three dots menu in the top right and select Resources.
+If you do not have the three dots, you will need to temporarily enable "Advanced Mode" within Profile
 
-Customize to suit your needs and contribute it back to the community
+### Step 6
+Choose "Add Resource" and enter the following:
+   URL: /local/ha_southeastern-rail-card/southeastern-rail-card.js
+   Resource Type: JavaScript Module
 
-## Starting a new card from boilerplate-card with [devcontainer][devcontainer]
+### Step 7
+If you created the <config>/www directory, restart Home Assistant (Developer Tools > Restart)
 
-Note: this is available only in vscode ensure you have the [Remote Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension installed.
-
-1. Fork and clone the repository.
-2. Open a [devcontainer][devcontainer] terminal and run `npm start` when it's ready.
-3. The compiled `.js` file will be accessible on
-   `http://127.0.0.1:5000/boilerplate-card.js`.
-4. On a running Home Assistant installation add this to your Lovelace
-   `resources:`
-
-```yaml
-- url: 'http://127.0.0.1:5000/boilerplate-card.js'
-  type: module
-```
-
-_Change "127.0.0.1" to the IP of your development machine._
-
-### Bonus
-
-If you need a fresh test instance you can install a fresh Home Assistant instance inside the devcontainer as well.
-
-1. Run the command `container start`.
-2. Home Assistant will install and will eventually be running on port `9123`
-
-## [Troubleshooting](https://github.com/thomasloven/hass-config/wiki/Lovelace-Plugins)
-
-NB This will not work with node 9.x if you see the following errors try installing node 8.10.0
-
-```yarn install
-yarn install v1.3.2
-[1/4] 🔍  Resolving packages...
-warning rollup-plugin-commonjs@10.1.0: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-commonjs.
-[2/4] 🚚  Fetching packages...
-error @typescript-eslint/eslint-plugin@2.6.0: The engine "node" is incompatible with this module. Expected version "^8.10.0 || ^10.13.0 || >=11.10.1".
-error Found incompatible module
-info Visit https://yarnpkg.com/en/docs/cli/install for documentation about this command.
-```
-
-[commits-shield]: https://img.shields.io/github/commit-activity/y/custom-cards/boilerplate-card.svg?style=for-the-badge
-[commits]: https://github.com/custom-cards/boilerplate-card/commits/master
-[devcontainer]: https://code.visualstudio.com/docs/remote/containers
-[discord]: https://discord.gg/5e9yvq
-[discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
-[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
-[forum]: https://community.home-assistant.io/c/projects/frontend
 [license-shield]: https://img.shields.io/github/license/custom-cards/boilerplate-card.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2021.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/release/custom-cards/boilerplate-card.svg?style=for-the-badge
-[releases]: https://github.com/custom-cards/boilerplate-card/releases
