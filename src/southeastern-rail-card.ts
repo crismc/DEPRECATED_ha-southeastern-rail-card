@@ -56,6 +56,13 @@ export class SoutheasternRailCard extends LitElement {
     }
 
     this.config = {
+      show_warning: true,
+      show_error: true,
+      show_via_destination: true,
+      show_callingpoints: true,
+      show_status: true,
+      show_arrival_time: true,
+      show_departure_time: true,
       ...config,
     };
   }
@@ -253,6 +260,11 @@ export class SoutheasternRailCard extends LitElement {
 
   protected render(): TemplateResult | void {
     const entity = this.getEntity(this.config.entity);
+
+    if (!entity) {
+        return;
+    }
+
     // console.log(this.hass);
     return html`
       <ha-card
@@ -288,13 +300,19 @@ export class SoutheasternRailCard extends LitElement {
     return html` <hui-warning>${warning}</hui-warning> `;
   }
 
-  private _showError(error: string): TemplateResult {
+  private _showError(error: string, showOrigConfig = false): TemplateResult {
     const errorCard = document.createElement('hui-error-card');
-    errorCard.setConfig({
+
+    const config = {
       type: 'error',
-      error,
-      // origConfig: this.config,
-    });
+      error
+    };
+
+    if (showOrigConfig) {
+      config["origConfig"] = this.config;
+    }
+
+    errorCard.setConfig(config);
 
     return html` ${errorCard} `;
   }

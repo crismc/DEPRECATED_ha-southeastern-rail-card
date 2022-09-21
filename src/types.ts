@@ -13,6 +13,11 @@ export interface SoutheasternRailCardConfig extends LovelaceCardConfig {
   name?: string;
   show_warning?: boolean;
   show_error?: boolean;
+  show_via_destination?: boolean;
+  show_callingpoints?: boolean;
+  show_status?: boolean;
+  show_arrival_time?: boolean;
+  show_departure_time?: boolean;
   test_gui?: boolean;
   entity?: string;
   tap_action?: ActionConfig;

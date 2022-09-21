@@ -1,10 +1,10 @@
 # Southeastern Rail Card by [@crismc](https://github.com/crismc)
 A custom Home Assistant card to show next available trains to specific stops through the National Rail Darwin API.
-Based on the community driven boilerplate of best practices for Home Assistant Lovelace custom cards (Boilerplate Card by [@iantrich](https://www.github.com/iantrich)
-
 To be used with the Home Assistant custom component ha_southeasternrail (https://github.com/crismc/ha_southeasternrail.git)
 
 [![License][license-shield]](LICENSE.md)
+
+Based on the community driven boilerplate of best practices for Home Assistant Lovelace custom cards (Boilerplate Card by [@iantrich](https://www.github.com/iantrich) https://github.com/custom-cards/boilerplate-card)
 
 ## Options
 
