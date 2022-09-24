@@ -154,7 +154,6 @@ export class SoutheasternRailCard extends LitElement {
   }
 
   stationMessage(entity): TemplateResult | void {
-    // return html`<ha-alert alert-type="success">blah blah blah</ha-alert>`;
     if (this.config.show_warning && entity.message) {
       const message = entity.message.replace('this station', entity.station_name + ' station');
       return html`<div class="messages">${this._showWarning(message)}</div>`;
@@ -175,7 +174,6 @@ export class SoutheasternRailCard extends LitElement {
 
     return html`<div class="status ${alertType}">
       <ha-alert alert-type="${alertType}">
-        <ha-icon id="bus-clock" icon="mdi:bus-clock"></ha-icon>
         ${this.isDelayed(entity.service) ?
           html`Delayed (<span class="delayed">${this.formatTime(entity.service.std)}</span>)`
           :
@@ -194,15 +192,14 @@ export class SoutheasternRailCard extends LitElement {
     if (this.config.show_departure_time) {
       departure = html`
       <div class="train-times__col">
-        <h2 class="train-times__title">Departs</h2>
+        <div class="train-times__title">Departs</div>
         <div class="train-times__time">${this.departureTime(entity)}</div>
       </div>`;
     }
     if (this.config.show_arrival_time) {
       arrival = html`
       <div class="train-times__col">
-        <ha-icon class="arrow" icon="mdi:arrow-right-bold"></ha-icon>
-        <h2 class="train-times__title">Arrives</h2>
+        <div class="train-times__title">Arrives</div>
         <div class="train-times__time">${this.arrivalTime(entity)}</div>
       </div>`;
     }
@@ -220,7 +217,7 @@ export class SoutheasternRailCard extends LitElement {
     }
 
     return html`<div class="calling-points">
-      <h3 class="calling-points__title">Calling At</h3>
+      <!-- <div class="calling-points__title">Calling At</div> -->
       <div class="calling-points_container">
         <marquee>
           <div class="calling-point_items">
@@ -268,7 +265,6 @@ export class SoutheasternRailCard extends LitElement {
     // console.log(this.hass);
     return html`
       <ha-card
-        .header=${this.config.name ? this.config.name : entity ? entity.attributes.friendly_name : "Southeastern Rail"}
         @action=${this._handleAction}
         .actionHandler=${actionHandler({
           hasHold: hasAction(this.config.hold_action),
@@ -278,7 +274,13 @@ export class SoutheasternRailCard extends LitElement {
         .label=${`Southeastern Rail: ${this.config.entity || 'No Entity Defined'}`}
       >
         <div class="card-content">
-          ${this.config.show_via_destination ? html`<div class="via-destination">${this.destinationVia(entity.attributes.service)}</div>` : null}
+          <div class="title">
+            <ha-icon class="title_icon" icon="mdi:bus-clock"></ha-icon>
+            <div class="title_inner">
+              ${this.config.name ? this.config.name : entity ? entity.attributes.friendly_name : "Southeastern Rail"}
+              ${this.config.show_via_destination ? html`<div class="via-destination">${this.destinationVia(entity.attributes.service)}</div>` : null}
+            </div>
+          </div>
           ${this._renderErrors()}
           ${this.stationMessage(entity.attributes)}
           ${this._renderServiceStatus(entity.attributes)}
@@ -319,9 +321,15 @@ export class SoutheasternRailCard extends LitElement {
 
   static get styles(): CSSResultGroup {
     return css`
+      .title {
+        font-weight: bold;
+        display: flex;
+        gap: 8px;
+      }
       .via-destination {
-        margin-top: -20px;
         padding-bottom: 8px;
+        font-weight: normal;
+        font-size: smaller;
       }
 
       .messages {
@@ -335,6 +343,7 @@ export class SoutheasternRailCard extends LitElement {
       .status .delayed {
         text-decoration:line-through;
         font-weight: normal;
+        color: var(--error-color) !important;
       }
 
       .train-times {
@@ -345,6 +354,12 @@ export class SoutheasternRailCard extends LitElement {
         margin-top: 8px;
         position: relative;
         flex-wrap: wrap;
+        font-weight: bold;
+      }
+
+      .train-times .train-times__time {
+        font-weight: normal;
+        font-size: larger;
       }
 
       .train-times .train-times__col {
@@ -353,21 +368,18 @@ export class SoutheasternRailCard extends LitElement {
         flex: 1;
       }
 
-      .train-times .train-times__col .arrow {
-        position: absolute;
-        left: 0;
-        right: 0;
-        margin: auto;
-        --mdc-icon-size: 15%;
-      }
-
       .train-times .train-times__col h2 {
         margin: 0;
         margin-bottom: 8px;
       }
 
-      .train-times__time {
+      /* .train-times__time {
         font-size: 2rem;
+      } */
+
+      .calling-points {
+        margin-top: 8px;
+        font-weight: normal;
       }
 
       .calling-points__title {
@@ -407,12 +419,6 @@ export class SoutheasternRailCard extends LitElement {
 
       .last_updated .date {
         font-style: italic;
-      }
-
-      @media screen and (max-width: 1024px) {
-        .train-times .train-times__col .arrow {
-          display: none;
-        }
       }
 
       /* Colours */
