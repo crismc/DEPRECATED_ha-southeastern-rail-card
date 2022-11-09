@@ -2,3 +2,10 @@
 /.rpt2_cache/
 package-lock.json
 /dist
+.vscode
+.devcontainer
+.eslintrc.js
+.prettierrc.js
+yarn-error.log
+yarn.lock
+tsconfig.json
